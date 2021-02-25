@@ -25,11 +25,12 @@ public static int allocate_pid(){
     if(pids.get(i).equals(0)) {
       pi = i;
       pids.put(pi, 1);
-      return pi;
+      System.out.println("Allocated pid: "+ pi);
+      return 1;
     }
   }
     
-    return 1;
+  return 1;
  }
 
   //public int release_pid(int pid){
