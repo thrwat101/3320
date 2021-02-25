@@ -5,32 +5,29 @@ public class PidManager {
 
   public static int allocate_map(){
     pids = new HashMap();
-     
-    if(pids == null)
-      return -1;
-     
+      
     for(int i = 0; i < MAX_PID+1; i++)
       pids.put(i, 0);
-  
+      
     return 1;
   }
   
-public static int allocate_pid(){
-  if(pids == null) 
-      return -1;
+  public static int allocate_pid(){
+    int pid = 0;
 
-    int pi = 0;
-
-  for(int i = MIN_PID; i < MAX_PID; i++){
-    if(pids.get(i).equals(0)) {
-      pi = i;
-      pids.put(pi, 1);
-      System.out.println("Allocated pid: "+ pi);
-      return 1;
+    for(int i = MIN_PID; i <= MAX_PID; i++){
+      if(!pids.get(MAX_PID).equals(0)){
+        System.out.println("Failed to allocate pid.");
+        return -1;
+      }
+      
+      if(pids.get(i).equals(0)) {
+        pid = i;
+        pids.put(pid, 1);
+        return pid;
+      }   
     }
-  }
-    
-  return 1;
+    return pid;
  }
 
   //public int release_pid(int pid){
@@ -42,12 +39,14 @@ public static int allocate_pid(){
   private static Map pids;
   
   public static void main(String[] args){
+    allocate_map();
+    System.out.println(allocate_map());
 
-      allocate_map();
-      System.out.println(allocate_pid());
-      System.out.println(allocate_pid());
-      System.out.println(allocate_pid());
-      
+    for(int i = 0; i <= 4701; i++){
+      System.out.println("Allocated pid: " + allocate_pid());
+
+    }
+    
   }
     
 }
