@@ -21,13 +21,13 @@ public static int allocate_pid(){
 
     int pi = 0;
 
-    for(int i = MIN_PID; i < MAX_PID; i++){
-      if(pids.get(i).equals(0)) {
-        pi = i;
-        pids.put(pi, 1);
-        return pi;
-      }
+  for(int i = MIN_PID; i < MAX_PID; i++){
+    if(pids.get(i).equals(0)) {
+      pi = i;
+      pids.put(pi, 1);
+      return pi;
     }
+  }
     
     return 1;
  }
