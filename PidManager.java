@@ -52,7 +52,6 @@ public class PidManager {
   
   public static void main(String[] args){
     allocate_map();
-    System.out.println(allocate_map());
 
     for(int i = 0; i <= 5; i++){
       System.out.println("Allocated pid: " + allocate_pid());
