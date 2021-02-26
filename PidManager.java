@@ -17,19 +17,19 @@ public class PidManager {
       return -1;
 
     int pid = 0;
-
+    boolean full = true;
     for(int i = MIN_PID; i <= MAX_PID; i++){
-      if(!pids.get(MAX_PID).equals(0)){
-        System.out.println("Failed to allocate pid.");
-        return -1;
-      }
-      
       if(pids.get(i).equals(0)) {
+        full = false;
         pid = i;
         pids.put(pid, 1);
         return pid;
-      }   
+      } 
     }
+
+    if(full)
+        return -1;  
+
     return pid;
  }
 
@@ -37,7 +37,7 @@ public class PidManager {
     if(pids.isEmpty())
       System.out.println("Pid Manager has not been initiated.");
     
-    if(pid > MAX_PID || pid < MIN_PID)
+    if(pid > MAX_PID || pid < MIN_PID) //make sure pid is within the min and max range.
       System.out.println("This pid is out of range.");
     
     pids.put(pid, 0);
