@@ -17,7 +17,7 @@ public class PidManager {
 
     int pid = 0;
     boolean full = true;
-    for(int i = MIN_PID; i <= MAX_PID; i++){
+    for(int i = MIN_PID; i <= MAX_PID; i++){//only allocates pids within the min and max range.
       if(pids.get(i).equals(0)) {
         full = false;
         pid = i;
@@ -41,7 +41,7 @@ public class PidManager {
     if(pid > MAX_PID || pid < MIN_PID) //make sure pid is within the min and max range.
       System.out.println("This pid is out of range.");
     
-    pids.put(pid, 0);
+    pids.put(pid, 0);//resets the value to zero. so pid is no longer in use.
     System.out.println("released pid: " + pid);
     
   }
