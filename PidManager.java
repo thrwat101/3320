@@ -5,7 +5,7 @@ public class PidManager {
 
   public static int allocate_map(){
     pids = new HashMap();
-      
+
     for(int i = 0; i < MAX_PID+1; i++)
       pids.put(i, 0);
       
@@ -13,6 +13,9 @@ public class PidManager {
   }
   
   public static int allocate_pid(){
+    if(pids.isEmpty())
+      return -1;
+
     int pid = 0;
 
     for(int i = MIN_PID; i <= MAX_PID; i++){
@@ -30,9 +33,12 @@ public class PidManager {
     return pid;
  }
 
-  //public int release_pid(int pid){
-
- // }
+  public static void release_pid(int pid){
+    if(pids.isEmpty())
+      return -1;
+    
+    
+  }
 
   private static int MIN_PID = 300;
   private static int MAX_PID = 5000;
