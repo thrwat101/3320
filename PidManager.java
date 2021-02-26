@@ -24,14 +24,16 @@ public class PidManager {
         pids.put(pid, 1);
         return pid;
       } 
+      
     }
 
-    if(full)
+    if(full) //checks if all the pids are used.
         return -1;  
 
-    return pid;
+    else 
+      return pid;
  }
-
+ 
   public static void release_pid(int pid){
     if(pids.isEmpty())
       System.out.println("Pid Manager has not been initiated.");
