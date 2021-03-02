@@ -29,7 +29,7 @@ public class PidManager {
         pids.put(pid, 1);
         return pid;
       } 
-      
+
     }
 
     if(full) //checks if all the pids are used.
@@ -53,7 +53,7 @@ public class PidManager {
 
   private static int MIN_PID = 300;
   private static int MAX_PID = 5000;
-  private static Map pids;
+  private static Map<Integer, Integer> pids;
   
   public static void main(String[] args){
     allocate_map();
