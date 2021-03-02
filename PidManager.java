@@ -57,13 +57,15 @@ public class PidManager {
   private static Map<Integer, Integer> pids;
   
   public static void main(String[] args){
-    allocate_map();
+    PidManager pid1 = new PidManager();
+    pid1.allocate_map();
 
     for(int i = 0; i <= 5; i++){
-      System.out.println("Allocated pid: " + allocate_pid());
+      System.out.println("Allocated pid: " + pid1.allocate_pid());
 
     }
-    release_pid(302);
+    
+    pid1.release_pid(302);
     
   }
     
