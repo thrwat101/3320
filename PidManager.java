@@ -21,10 +21,10 @@ public class PidManager {
       return -1;
 
     int pid = 0;
-    boolean full = true;
+    boolean isFull = true;
     for(int i = MIN_PID; i <= MAX_PID; i++){//only allocates pids within the min and max range.
       if(pids.get(i).equals(0)) {
-        full = false;
+        isFull = false;
         pid = i;
         pids.put(pid, 1);
         return pid;
@@ -32,7 +32,7 @@ public class PidManager {
 
     }
 
-    if(full) //checks if all the pids are used.
+    if(isFull) //checks if all the pids are used.
         return -1;  
 
     else 
