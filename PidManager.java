@@ -17,11 +17,12 @@ public class PidManager {
   }
   
   public static int allocate_pid(){
-    if(pids.isEmpty())//checks if PidManager has not been initialized.
-      return -1;
-
     int pid = 0;
     boolean isFull = true;
+
+    if(pids == null)//checks if PidManager has not been initialized.
+      return -1;
+      
     for(int i = MIN_PID; i <= MAX_PID; i++){//only allocates pids within the min and max range.
       if(pids.get(i).equals(0)) {
         isFull = false;
@@ -29,25 +30,25 @@ public class PidManager {
         pids.put(pid, 1);
         return pid;
       } 
-
     }
 
     if(isFull) //checks if all the pids are used.
-        return -1;  
-
+        return -1;
     else 
       return pid;
- }
+  }
  
   public static void release_pid(int pid){
-    if(pids.isEmpty())
-      System.out.println("Pid Manager has not been initiated.");
+    if(pids == null)
+      System.out.println("Pid Manager has not been initialized.");
     
-    if(pid > MAX_PID || pid < MIN_PID) //make sure pid is within the min and max range.
+    else if(pid > MAX_PID || pid < MIN_PID) //make sure pid is within the min and max range.
       System.out.println("This pid is out of range.");
     
-    pids.put(pid, 0);//resets the value to zero. so pid is no longer in use.
-    System.out.println("released pid: " + pid);
+    else {
+      pids.put(pid, 0);//resets the value to zero. so pid is no longer in use.
+      System.out.println("released pid: " + pid);
+    }
     
   }
 
