@@ -5,10 +5,15 @@ public class PidManager {
   public static int allocate_map(){
     pids = new HashMap();//hashmap to store pids and there values.
 
-    for(int i = 0; i < MAX_PID+1; i++)//sets all the values of the keys to zero.
-      pids.put(i, 0);
-      
+    try{
+      for(int i = 0; i < MAX_PID+1; i++)//sets all the values of the keys to zero.
+        pids.put(i, 0);
+
+    }catch(Exception e){
+      return -1;
+    }  
     return 1;
+    
   }
   
   public static int allocate_pid(){
