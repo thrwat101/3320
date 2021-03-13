@@ -10,7 +10,7 @@ public class MultiThread implements Runnable{
         this.thread_id = thread_id;
         this.sleep_time = sleep_time;
         this.pids = pids;
-        System.out.println("Creating Thread- " + thread_id);
+        System.out.println("Creating Thread: " + thread_id);
     }
 
     @Override
