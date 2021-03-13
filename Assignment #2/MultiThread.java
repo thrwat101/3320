@@ -2,21 +2,22 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import static java.lang.Thread.currentThread;
 public class MultiThread implements Runnable{
-    public int threadID;
-    private int threadSleepTime;
+    public int thread_id;
+    private int sleep_time;
     private PidManager pids;
 
-    MultiThread(int threadID, int threadSleepTime, PidManager pids) {
-        this.threadID = threadID;
-        this.threadSleepTime = threadSleepTime;
+    MultiThread(int thread_id, int sleep_time, PidManager pids) {
+        this.thread_id = thread_id;
+        this.sleep_time = sleep_time;
         this.pids = pids;
-        System.out.println("Creating Thread- " + threadID);
+        System.out.println("Creating Thread- " + thread_id);
     }
+
     @Override
     public void run() {
-
         Integer new_pid;
-        System.out.println("Running Thread-" + currentThread().getName()); //show running thread
+
+        System.out.println("Running Thread: " + currentThread().getName()); //show running thread
         new_pid = pids.allocate_pid();                                    //assigned our pid object from the Main class to the new_pid variable
 
         while (new_pid == -1) {                                         // to make sure that each process created gets its own PID
@@ -26,25 +27,24 @@ public class MultiThread implements Runnable{
 
 
         currentThread().setName(new_pid.toString());                       //PID  was assigned to the thread
-        System.out.println("PID-" + new_pid + " was successfully allocated");
+        System.out.println("Aloocated PID: " + new_pid);
 
 
         try {
-            Thread.sleep(threadSleepTime);                                 //Thread sleeps for a while - time is random
+            Thread.sleep(sleep_time);                                 //Thread sleeps for a while - time is random
 
         } catch (InterruptedException e) {
             System.out.println("Thread " + currentThread().getName() + " interrupted.");
         }
 
         Integer pid_to_release = Integer.valueOf(currentThread().getName()); //current thread is assigned to the new variable pid_to_release which will be released later
-        System.out.println("pid " + pid_to_release);
+
 
         pids.release_pid(pid_to_release);                                   //pids object called the release_pid method from the Main class to get released
+        System.out.println("Released PID: " + pid_to_release);
 
-        System.out.println("PID-" + pid_to_release + " was successfully released");
-        System.out.println("Thread " + currentThread().getName() + " exiting."); //prints out the existing current thread
+        System.out.println("Exiting Thread: " + currentThread().getName()); //prints out the existing current thread
     }
-
 
     /*
       The thread pool is primarily used to reduce the number of application threads
@@ -73,7 +73,7 @@ public class MultiThread implements Runnable{
 
 
             ExecutorService pool1 = Executors.newFixedThreadPool(50);
-            for (int i = 1; i < 51; i++) {
+            for (int i = 1; i < 6; i++) {
                 MultiThread task1 = new MultiThread(i, (int) (Math.random() * 50 + 1), pids);
                 // execute() is a method provided my the thread class, takes one argument.
                 // We use it to add a new Runnable object to the work queue.
@@ -81,7 +81,7 @@ public class MultiThread implements Runnable{
             }
 
             ExecutorService pool2 = Executors.newFixedThreadPool(50);
-            for (int i = 1; i < 51; i++) {
+            for (int i = 1; i < 6; i++) {
                 MultiThread task2 = new MultiThread(i, (int) (Math.random() * 50 + 1), pids);
                 pool2.execute(task2);
             }
