@@ -27,7 +27,7 @@ public class MultiThread implements Runnable{
 
 
         currentThread().setName(new_pid.toString());                       //PID  was assigned to the thread
-        System.out.println("Aloocated PID: " + new_pid);
+        System.out.println("Allocated PID: " + new_pid);
 
 
         try {
@@ -41,7 +41,6 @@ public class MultiThread implements Runnable{
 
 
         pids.release_pid(pid_to_release);                                   //pids object called the release_pid method from the Main class to get released
-        System.out.println("Released PID: " + pid_to_release);
 
         System.out.println("Exiting Thread: " + currentThread().getName()); //prints out the existing current thread
     }
@@ -73,7 +72,7 @@ public class MultiThread implements Runnable{
 
 
             ExecutorService pool1 = Executors.newFixedThreadPool(50);
-            for (int i = 1; i < 6; i++) {
+            for (int i = 1; i < 2; i++) {
                 MultiThread task1 = new MultiThread(i, (int) (Math.random() * 50 + 1), pids);
                 // execute() is a method provided my the thread class, takes one argument.
                 // We use it to add a new Runnable object to the work queue.
@@ -81,7 +80,7 @@ public class MultiThread implements Runnable{
             }
 
             ExecutorService pool2 = Executors.newFixedThreadPool(50);
-            for (int i = 1; i < 6; i++) {
+            for (int i = 1; i < 2; i++) {
                 MultiThread task2 = new MultiThread(i, (int) (Math.random() * 50 + 1), pids);
                 pool2.execute(task2);
             }
