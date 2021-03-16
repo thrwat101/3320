@@ -13,6 +13,13 @@ public class MultiThread implements Runnable{
         System.out.println("Creating Thread: " + thread_id);
     }
 
+    MultiThread(int thread_id) {
+        this.thread_id = thread_id;
+        sleep_time = (int) (Math.random() * 50 + 1);
+        pids = new PidManager();
+        System.out.println("Creating Thread: " + thread_id);   
+    }
+
     @Override
     public void run() {
         Integer new_pid;
@@ -48,7 +55,7 @@ public class MultiThread implements Runnable{
     /*
       The thread pool is primarily used to reduce the number of application threads
       and provide management of the worker threads.
-     */
+    */
 
     public static class ThreadPoolTest {
 
