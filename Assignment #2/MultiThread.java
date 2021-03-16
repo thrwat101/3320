@@ -4,7 +4,7 @@ import static java.lang.Thread.currentThread;
 public class MultiThread implements Runnable{
     public int thread_id;
     private int sleep_time;
-    private PidManager pids;
+    private PidManager pids = new PidManager();
 
     MultiThread(int thread_id, int sleep_time, PidManager pids) {
         this.thread_id = thread_id;
@@ -16,7 +16,6 @@ public class MultiThread implements Runnable{
     MultiThread(int thread_id) {
         this.thread_id = thread_id;
         sleep_time = (int) (Math.random() * 50 + 1);
-        pids = new PidManager();
         System.out.println("Creating Thread: " + thread_id);   
     }
 
