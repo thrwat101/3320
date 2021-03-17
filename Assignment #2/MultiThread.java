@@ -2,7 +2,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import static java.lang.Thread.currentThread;
 public class MultiThread implements Runnable{
-    public int thread_id;
+    public static int thread_id = 0;
     private int sleep_time;
     private PidManager pids = new PidManager();
 
@@ -16,7 +16,13 @@ public class MultiThread implements Runnable{
     MultiThread(int thread_id) {
         this.thread_id = thread_id;
         sleep_time = (int) (Math.random() * 50 + 1);
-        System.out.println("Creating Thread: " + thread_id);   
+        System.out.println("Creating Thread: " + thread_id); 
+    }
+
+    MultiThread() {
+        thread_id++;
+        sleep_time = (int) (Math.random() * 50 + 1);
+        System.out.println("Creating Thread: " + thread_id); 
     }
 
     @Override
@@ -106,6 +112,8 @@ public class MultiThread implements Runnable{
             while (!pool2.isTerminated()) {
             }
             System.out.println("Finished all threads in Pool-2");
+
+           
         }
 
     }
