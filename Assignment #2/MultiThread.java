@@ -53,7 +53,6 @@ public class MultiThread implements Runnable{
 
         Integer release_pid = Integer.valueOf(currentThread().getName()); 
 
-
         pids.release_pid(release_pid);                                   
 
         System.out.println("Exiting Thread: " + currentThread().getName()); 
@@ -62,13 +61,14 @@ public class MultiThread implements Runnable{
     public static class ThreadPoolTest {
         public static void main(String args[]) {
             
-            ExecutorService pool1 = Executors.newFixedThreadPool(50);
+            //creating thread pools for each multi thread
+            ExecutorService pool1 = Executors.newFixedThreadPool(50); 
             ExecutorService pool2 = Executors.newFixedThreadPool(50);
             
             for (int i = 1; i < 51; i++) {
                 MultiThread task1 = new MultiThread(i);
                 MultiThread task2 = new MultiThread(i);
-                pool1.execute(task1);
+                pool1.execute(task1); 
                 pool2.execute(task2);
             }
 
