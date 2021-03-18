@@ -15,13 +15,15 @@ public class MultiThread implements Runnable{
 
     MultiThread(int thread_id) {
         this.thread_id = thread_id;
-        sleep_time = (int) (Math.random() * 50 + 1);
+        sleep_time = (int) (Math.random() * 1000);
+        pids.allocate_map();
         System.out.println("Creating Thread: " + thread_id); 
     }
 
     MultiThread() {
         thread_id++;
-        sleep_time = (int) (Math.random() * 50 + 1);
+        sleep_time = (int) (Math.random() * 1000);
+        pids.allocate_map();
         System.out.println("Creating Thread: " + thread_id); 
     }
 
@@ -29,75 +31,50 @@ public class MultiThread implements Runnable{
     public void run() {
         Integer pid;
 
-        System.out.println("Running Thread: " + currentThread().getName()); //show running thread
-        pid = pids.allocate_pid();                                    //assigned our pid object from the Main class to the new_pid variable
+        System.out.println("Running Thread: " + currentThread().getName()); 
+        pid = pids.allocate_pid();                                    
 
-        while (pid == -1) {                                         // to make sure that each process created gets its own PID
+        while (pid == -1) {                                         
             System.out.println("All PIDs are in use");
             pid = pids.allocate_pid();
         }
 
 
-        currentThread().setName(pid.toString());                       //PID  was assigned to the thread
+        currentThread().setName(pid.toString());                     
         System.out.println("Allocated PID: " + pid);
 
 
         try {
-            Thread.sleep(sleep_time);                                 //Thread sleeps for a while - time is random
+            Thread.sleep(sleep_time);                                 
 
         } catch (InterruptedException e) {
             System.out.println("Thread " + currentThread().getName() + " interrupted.");
         }
 
-        Integer release_pid = Integer.valueOf(currentThread().getName()); //current thread is assigned to the new variable pid_to_release which will be released later
+        Integer release_pid = Integer.valueOf(currentThread().getName()); 
 
 
-        pids.release_pid(release_pid);                                   //pids object called the release_pid method from the Main class to get released
+        pids.release_pid(release_pid);                                   
 
-        System.out.println("Exiting Thread: " + currentThread().getName()); //prints out the existing current thread
+        System.out.println("Exiting Thread: " + currentThread().getName()); 
     }
 
-    /*
-      The thread pool is primarily used to reduce the number of application threads
-      and provide management of the worker threads.
-    */
-
     public static class ThreadPoolTest {
-
         public static void main(String args[]) {
-            PidManager pids = new PidManager();
-
-            if (pids.allocate_map() == 1) 
-                System.out.println("Successfully allocated map of PIDs");
-            else 
-                System.out.println("Failed to allocate map of PIDs");
             
             ExecutorService pool1 = Executors.newFixedThreadPool(50);
             ExecutorService pool2 = Executors.newFixedThreadPool(50);
             
             for (int i = 1; i < 51; i++) {
                 MultiThread task1 = new MultiThread(i);
-                pool1.execute(task1);
-            }
- 
-            for (int i = 1; i < 51; i++) {
                 MultiThread task2 = new MultiThread(i);
+                pool1.execute(task1);
                 pool2.execute(task2);
-            }    
+            }
 
             pool1.shutdown();
             pool2.shutdown();
-
-
-            while (!pool1.isTerminated()) {
-            }
-            System.out.println("Finished all threads in Pool-1");
-
-            while (!pool2.isTerminated()) {
-            }
-            System.out.println("Finished all threads in Pool-2");
-
-           
+  
         }
 
     }
