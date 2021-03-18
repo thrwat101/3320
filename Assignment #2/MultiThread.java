@@ -60,15 +60,20 @@ public class MultiThread implements Runnable{
 
     public static class ThreadPoolTest {
         public static void main(String args[]) {
-            
+            PidManager pm = new PidManager();
+            pm.allocate_map();
+
             //creating thread pools for each multi thread
-            ExecutorService pool1 = Executors.newFixedThreadPool(15); 
-            ExecutorService pool2 = Executors.newFixedThreadPool(15);
+            ExecutorService pool1 = Executors.newFixedThreadPool(5); 
+            ExecutorService pool2 = Executors.newFixedThreadPool(5);
+
+            for (int i = 1; i <= 5; i++) {
+                MultiThread task1 = new MultiThread(i, (int) (Math.random() * 1000), pm);  
+                pool1.execute(task1);    
+            }
             
-            for (int i = 1; i <= 15; i++) {
-                MultiThread task1 = new MultiThread(i);
-                MultiThread task2 = new MultiThread(i);
-                pool1.execute(task1); 
+            for (int i = 1; i <= 5; i++) {
+                MultiThread task2 = new MultiThread(i, (int) (Math.random() * 1000), pm);
                 pool2.execute(task2);
             }
 
