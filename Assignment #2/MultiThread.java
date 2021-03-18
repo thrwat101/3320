@@ -62,10 +62,10 @@ public class MultiThread implements Runnable{
         public static void main(String args[]) {
             
             //creating thread pools for each multi thread
-            ExecutorService pool1 = Executors.newFixedThreadPool(50); 
-            ExecutorService pool2 = Executors.newFixedThreadPool(50);
+            ExecutorService pool1 = Executors.newFixedThreadPool(15); 
+            ExecutorService pool2 = Executors.newFixedThreadPool(15);
             
-            for (int i = 1; i < 51; i++) {
+            for (int i = 1; i <= 15; i++) {
                 MultiThread task1 = new MultiThread(i);
                 MultiThread task2 = new MultiThread(i);
                 pool1.execute(task1); 
