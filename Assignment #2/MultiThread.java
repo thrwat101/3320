@@ -65,41 +65,25 @@ public class MultiThread implements Runnable{
     public static class ThreadPoolTest {
 
         public static void main(String args[]) {
-
             PidManager pids = new PidManager();
 
-            //double checks if map is allocated and initialized
-
             if (pids.allocate_map() == 1) 
-                System.out.println("Successfully allocated and initialized a map of PIDs");
+                System.out.println("Successfully allocated map of PIDs");
             else 
-                System.out.println("Failed to allocate and initialize a map of PIDs");
+                System.out.println("Failed to allocate map of PIDs");
             
-
-            //Creating 2 pools with 50 threads for each,  100 in total.
-
-            //ExecutorService that creates a thread pool of fixed number of threads.
-            //newFixedThreadPool() method is used where we specify the number of threads in the pool.
-            // To execute the thread, we can use either execute() method or submit(), where both of them take Runnable as a parameter.
-
-
             ExecutorService pool1 = Executors.newFixedThreadPool(50);
+            ExecutorService pool2 = Executors.newFixedThreadPool(50);
+            
             for (int i = 1; i < 51; i++) {
-                MultiThread task1 = new MultiThread(i, (int) (Math.random() * 50 + 1), pids);
-                // execute() is a method provided my the thread class, takes one argument.
-                // We use it to add a new Runnable object to the work queue.
+                MultiThread task1 = new MultiThread(i);
                 pool1.execute(task1);
             }
-
-            ExecutorService pool2 = Executors.newFixedThreadPool(50);
+ 
             for (int i = 1; i < 51; i++) {
-                MultiThread task2 = new MultiThread(i, (int) (Math.random() * 50 + 1), pids);
+                MultiThread task2 = new MultiThread(i);
                 pool2.execute(task2);
-            }
-
-            //To close down the ExecutorService we use shutdown() method,
-            // in which the submitted tasks are executed before
-            // the shutting down but new tasks can not be accepted.
+            }    
 
             pool1.shutdown();
             pool2.shutdown();
