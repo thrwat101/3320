@@ -64,21 +64,14 @@ public class MultiThread implements Runnable{
             pm.allocate_map();
 
             //creating thread pools for each multi thread
-            ExecutorService pool1 = Executors.newFixedThreadPool(5); 
-            ExecutorService pool2 = Executors.newFixedThreadPool(5);
+            ExecutorService pool = Executors.newFixedThreadPool(5); 
 
             for (int i = 1; i <= 5; i++) {
                 MultiThread task1 = new MultiThread(i, (int) (Math.random() * 1000), pm);  
-                pool1.execute(task1);    
-            }
-            
-            for (int i = 1; i <= 5; i++) {
-                MultiThread task2 = new MultiThread(i, (int) (Math.random() * 1000), pm);
-                pool2.execute(task2);
+                pool.execute(task1);    
             }
 
-            pool1.shutdown();
-            pool2.shutdown();
+            pool.shutdown();
   
         }
 
