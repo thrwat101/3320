@@ -1,8 +1,11 @@
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import static java.lang.Thread.currentThread;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 public class MultiThread implements Runnable{
-    public static int thread_id = 0;
+    public static int thread_id;
     private int sleep_time;
     private PidManager pids = new PidManager();
 
@@ -13,32 +16,30 @@ public class MultiThread implements Runnable{
         System.out.println("Creating Thread: " + thread_id);
     }
 
-    MultiThread(int thread_id) {
-        this.thread_id = thread_id;
-        sleep_time = (int) (Math.random() * 1000);
-        pids.allocate_map();
-        System.out.println("Creating Thread: " + thread_id); 
-    }
-
-    MultiThread() {
-        thread_id++;
-        sleep_time = (int) (Math.random() * 1000);
-        pids.allocate_map();
-        System.out.println("Creating Thread: " + thread_id); 
-    }
-
     @Override
     public void run() {
-        Integer pid;
+        Integer pid;  
+        Lock myLock = new ReentrantLock(); // creating a java reentrant lock object.
+ 
+        System.out.println("Running Thread: " + currentThread().getName());
 
-        System.out.println("Running Thread: " + currentThread().getName()); 
-        pid = pids.allocate_pid();                                    
+        myLock.lock(); 
+        // calling the lock function. 
+        //this will make sure only one thread calls allocate_pid() at a time.
 
-        while (pid == -1) {                                         
-            System.out.println("All PIDs are in use");
+        try{
+            System.out.println("Lock aquired.");
             pid = pids.allocate_pid();
-        }
 
+            if(pid == -1) {                                         
+                System.out.println("All PIDs are in use");
+                pid = pids.allocate_pid();
+            }
+
+        } finally { 
+            System.out.println("Releasing Lock.");
+            myLock.unlock(); 
+        }
 
         currentThread().setName(pid.toString());                     
         System.out.println("Allocated PID: " + pid);
@@ -50,10 +51,19 @@ public class MultiThread implements Runnable{
         } catch (InterruptedException e) {
             System.out.println("Thread " + currentThread().getName() + " interrupted.");
         }
+        
+        Integer pid_release = Integer.valueOf(currentThread().getName()); 
+        
+        myLock.lock();
+        // locking once again.
+        // only one thread is released at a time.
 
-        Integer release_pid = Integer.valueOf(currentThread().getName()); 
+        try{
 
-        pids.release_pid(release_pid);                                   
+            pids.release_pid(pid_release);
+
+        }finally { myLock.unlock(); }
+                                           
 
         System.out.println("Exiting Thread: " + currentThread().getName()); 
     }
@@ -63,16 +73,15 @@ public class MultiThread implements Runnable{
             PidManager pm = new PidManager();
             pm.allocate_map();
 
-            //creating thread pools for each multi thread
-            ExecutorService pool = Executors.newFixedThreadPool(5); 
+            //creating a thread pool for our multi thread
+            ExecutorService pool = Executors.newFixedThreadPool(50);
 
             for (int i = 1; i <= 5; i++) {
-                MultiThread task1 = new MultiThread(i, (int) (Math.random() * 1000), pm);  
+                MultiThread task1 = new MultiThread(i, (int)(Math.random()*1000), pm);  
                 pool.execute(task1);    
             }
 
             pool.shutdown();
-  
         }
 
     }
