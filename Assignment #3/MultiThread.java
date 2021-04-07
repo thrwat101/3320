@@ -27,19 +27,17 @@ public class MultiThread implements Runnable{
         // calling the lock function. 
         //this will make sure only one thread calls allocate_pid() at a time.
 
-        try{
-            System.out.println("Lock aquired.");
-            pid = pids.allocate_pid();
+        try{ 
+            pid = pids.allocate_pid();   
 
             if(pid == -1) {                                         
                 System.out.println("All PIDs are in use");
                 pid = pids.allocate_pid();
             }
 
-        } finally { 
-            System.out.println("Releasing Lock.");
-            myLock.unlock(); 
-        }
+        } finally { myLock.unlock(); }
+
+        System.out.println("Releasing Lock.");
 
         currentThread().setName(pid.toString());                     
         System.out.println("Allocated PID: " + pid);
@@ -77,7 +75,7 @@ public class MultiThread implements Runnable{
             ExecutorService pool = Executors.newFixedThreadPool(50);
 
             for (int i = 1; i <= 5; i++) {
-                MultiThread task1 = new MultiThread(i, (int)(Math.random()*1000), pm);  
+                Runnable task1 = new MultiThread(i, (int)(Math.random()*1000), pm);  
                 pool.execute(task1);    
             }
 
