@@ -37,8 +37,6 @@ public class MultiThread implements Runnable{
 
         } finally { myLock.unlock(); }
 
-        System.out.println("Releasing Lock.");
-
         currentThread().setName(pid.toString());                     
         System.out.println("Allocated PID: " + pid);
 
@@ -57,7 +55,7 @@ public class MultiThread implements Runnable{
         // only one thread is released at a time.
 
         try{
-
+            
             pids.release_pid(pid_release);
 
         }finally { myLock.unlock(); }
