@@ -51,33 +51,33 @@ public class DiskSchedule{
         
     }
 
-    public int cylinders = 5000;
+    private int cylinders = 5000;
     public int requests[] = new int[50];
-    public int head_movements; 
+    private int head_movements; 
 
     public static void main(String []args) {
-
-        DiskSchedule fcfs = new DiskSchedule();
-        DiskSchedule scan = new DiskSchedule();
-        DiskSchedule c_scan = new DiskSchedule();
-        
+        Scanner sc = new Scanner(System.in);
+        DiskSchedule disk = new DiskSchedule();
+        int initial_position;
+        int current_position;
+                       
+        // User input initial position
+        System.out.print("Enter the initial position of the disk head: ");
+        initial_position = sc.nextInt();
+ 
         int requests[] = {4078, 153, 2819, 3294, 1433, 211, 1594, 2004, 2335, 2007, 771, 1043, 3950, 2784, 1881,
             2931, 3599, 1245, 4086, 520, 3901, 2866, 947, 3794, 2353, 3970, 3948, 1815, 4621, 372, 2684, 3088, 
             827, 3126, 2083, 584, 4420, 1294, 917, 2881, 3659, 2868, 100, 1581, 4581, 1664, 1001, 1213, 3439, 4706};
-
-
-        int initial_position; 
-        int current_position;  
-        Random rand = new Random();
+  
         
         for(int i = 0; i <= 50; i++) {
-            initial_position = requests[i];
-            requests[i] = rand.nextInt(5000);
+            disk.requests[i] = requests[i];
+            System.out.println( disk.requests[i]);
         }
 
-        /*System.out.println("Total head movements using FCFS: " + fcfs.FCFS(initial_position));
-        System.out.println("Total head movements using SCAN: " + scan.SCAN(initial_position));
-        System.out.println("Total head movements using C-SCAN: " + c_scan.C_SCAN(initial_position));*/
+        /*System.out.println("Total head movements using FCFS: " + disk.FCFS(initial_position));
+        System.out.println("Total head movements using SCAN: " + disk.SCAN(initial_position));
+        System.out.println("Total head movements using C-SCAN: " + disk.C_SCAN(initial_position));*/
 
 
     }
