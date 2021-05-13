@@ -17,7 +17,7 @@ public class DiskSchedule{
         head_movements = cylinders - initial_position;
         int request = 10000;
         
-        for(int i = 0; i < requests.length; ++i) 
+        for(int i = 0; i < requests.length; i++) 
             request = Math.min(request, requests[i]);
         
         if(request < initial_position)
@@ -62,7 +62,7 @@ public class DiskSchedule{
         initial_position = sc.nextInt();
 
         int fcfs = disk.FCFS(requests, initial_position);
-        int scan =  disk.SCAN(requests, initial_position);
+        int scan = disk.SCAN(requests, initial_position);
         int look = disk.LOOK(requests, initial_position);
  
         System.out.println("FCFS total head movements: " + fcfs);
