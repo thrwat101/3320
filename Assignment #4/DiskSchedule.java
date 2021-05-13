@@ -37,10 +37,9 @@ public class DiskSchedule{
 
         head_movements = max - initial_position;
                 
-        if(min < initial_position) {
+        if(min < initial_position)
             head_movements += (max - min);
-        }
-                
+          
         return head_movements;
     }
 
