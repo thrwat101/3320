@@ -2,53 +2,47 @@ import java.util.*;
 import java.io.*;
 public class DiskSchedule{
 
-    public int FCFS(int init, String pos, int[] requests) {
-        int prev = init;
-        head_movements = prev;
+    public int FCFS(int[] requests, int initial_position) {
+        int pos = initial_position; 
         
-        for(int i = 0; i < requests.length; ++i) {
-                head_movements = head_movements + Math.abs(prev - requests[i]);
-                prev = requests[i];
+        for(int i = 0; i < requests.length; i++) {
+            head_movements += Math.abs(requests[i] - pos);
+            pos = requests[i];
         }
+
         return head_movements;
     }
 
-    public int SCAN(int init, String pos, int[] requests) {
-                
-        // Let us assume that disk arm move "towards larger value".
+    public int SCAN(int[] requests, int initial_position) {          
+        head_movements = cylinders - initial_position;
+        int request = 10000;
         
-        int min_request = 2 * 5000;
+        for(int i = 0; i < requests.length; ++i) 
+                request = Math.min(request, requests[i]);
         
-        for(int i = 0; i < requests.length; ++i) {
-                min_request = Math.min(min_request, requests[i]);
-        }
-        
-        head_movements = (5000 - init);
-        if(min_request < init) {
-                head_movements = head_movements + (5000 - min_request);
-        }
+        if(request < initial_position)
+                head_movements += (cylinders - request);
         
         return head_movements;
+
     }
-    public int C_SCAN(int init, String pos, int[] requests) {
+    public int LOOK(int[] requests, int initial_position) {         
+        int max = 0;
+        int min = cylinders;
                 
-        // Let us assume that disk arm move "towards larger value".
+        for(int i = 0 ; i < requests.length ; i++)
+            max = Math.max(max, requests[i]);
         
-        int nearest_left_of_start = 2 * 5000;
-        
-        for(int i = 0 ; i < requests.length; ++i) {
-                if(requests[i] < init) {
-                        nearest_left_of_start = Math.max(nearest_left_of_start, requests[i]);
-                }
+        for(int i = 0 ; i < requests.length ; i++)
+            min = Math.min(min, requests[i]);
+
+        head_movements = max - initial_position;
+                
+        if(min < initial_position) {
+            head_movements += (max - min);
         }
-        
-        head_movements = (5000 - init) + (5000 - 0);
-        if(nearest_left_of_start < 2 * 5000) {
-                head_movements  = head_movements + nearest_left_of_start;
-        }
-        
+                
         return head_movements;
-        
     }
 
     private int cylinders = 5000;
@@ -57,8 +51,7 @@ public class DiskSchedule{
     public static void main(String []args) {
         Scanner sc = new Scanner(System.in);
         DiskSchedule disk = new DiskSchedule();
-        int initial;
-        String curr;
+        int initial_position;
 
         int requests[] = {4078, 153, 2819, 3294, 1433, 211, 1594, 2004, 2335, 2007, 
             771, 1043, 3950, 2784, 1881,2931, 3599, 1245, 4086, 520, 3901, 2866, 947, 
@@ -66,19 +59,17 @@ public class DiskSchedule{
             4420, 1294, 917, 2881, 3659, 2868, 100, 1581, 4581, 1664, 1001, 1213, 3439, 
             4706};
 
-        // User input initial position
+        // input initial position
         System.out.print("Enter the initial position of the disk head: ");
-        initial = sc.nextInt();
-        System.out.print("Enter the current direction in which it should start moving: ");
-        curr = sc.next();
+        initial_position = sc.nextInt();
 
-        int fcfs = disk.FCFS(initial, curr, requests);
-        int scan =  disk.SCAN(initial, curr, requests);
-        int c_scan = disk.C_SCAN(initial, curr, requests);
+        int fcfs = disk.FCFS(requests, initial_position);
+        int scan =  disk.SCAN(requests, initial_position);
+        int look = disk.LOOK(requests, initial_position);
  
-        System.out.println("Total head movements using FCFS: " + fcfs);
-        System.out.println("Total head movements using SCAN: " + scan);
-        System.out.println("Total head movements using C-SCAN: " + c_scan);
+        System.out.println("FCFS total head movements: " + fcfs);
+        System.out.println("SCAN total head movements: " + scan);
+        System.out.println("LOOK total head movements: " + look);
 
 
     }
