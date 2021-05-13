@@ -18,10 +18,10 @@ public class DiskSchedule{
         int request = 10000;
         
         for(int i = 0; i < requests.length; ++i) 
-                request = Math.min(request, requests[i]);
+            request = Math.min(request, requests[i]);
         
         if(request < initial_position)
-                head_movements += (cylinders - request);
+            head_movements += (cylinders - request);
         
         return head_movements;
 
