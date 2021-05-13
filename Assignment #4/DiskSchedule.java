@@ -14,6 +14,7 @@ public class DiskSchedule{
     }
 
     public int SCAN(int[] requests, int initial_position) {          
+        head_movements = cylinders - initial_position;
         int request = 10000;
         
         for(int i = 0; i < requests.length; ++i) 
@@ -21,8 +22,6 @@ public class DiskSchedule{
         
         if(request < initial_position)
             head_movements += (cylinders - request);
-        else 
-            head_movements = cylinders - initial_position;
         
         return head_movements;
 
