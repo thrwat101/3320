@@ -30,11 +30,10 @@ public class DiskSchedule{
         int max = 0;
         int min = cylinders;
                 
-        for(int i = 0 ; i < requests.length ; i++)
+        for(int i = 0 ; i < requests.length ; i++){
             max = Math.max(max, requests[i]);
-        
-        for(int i = 0 ; i < requests.length ; i++)
             min = Math.min(min, requests[i]);
+        }
 
         head_movements = max - initial_position;
                 
